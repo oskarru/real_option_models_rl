@@ -17,7 +17,7 @@ pip install -r requirements.txt
 ## References
 If you find this work useful, please cite the original paper!:
 
-> Dianetti, J., & Ferrari, G. & Xu, R. (2026). *Reinforcement Learning in Real Option Models*
+> Dianetti, J., Ferrari, G., & Xu, R. (2026). *Reinforcement Learning in Real Option Models*
 
 Or use the following BibTeX entry:
 ```
