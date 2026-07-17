@@ -4,8 +4,21 @@ site_description: Application of Reainforcement Learning in solving optimal stop
 theme:
   name: material
   palette:
-    scheme: slate
-    primary: indigo
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: deep purple
+      accent: purple
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+      primary: deep purple
+      accent: purple
   features:
     - navigation.tabs
 
@@ -29,8 +42,11 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 nav:
-  - Home Page: index.md
+  - Home Page: README.md
   - Theoretical Introduction: Theory.md
   - Algorithms and Simulations:
     - Algorithm 1: notebooks/01_algorithm_1_pi_pi_os.ipynb
     - Algorithm 4: notebooks/02_algorithm_4_spi_pi_os.ipynb
+
+extra_css:
+  - stylesheets/extra.css
