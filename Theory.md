@@ -13,10 +13,10 @@ For this reason, we use reinforcement learning (RL) methods that do not require 
 ## Theory
 ### Assumption 4.4
 Assume the initial policy $g_0$ satisfies the following conditions:
-1. $g_0\in {C}^1([0,\hat{x}_{g_0}])$ is strictly increasing on $[0,\hat{x}_{g_0}]$,
-2. $g_0(0) = e^{-(1+\frac{\kappa \rho}{\lambda})}$,  and
-3. $- \alpha_- \Big(\kappa  +\frac{\lambda}{\rho}  \log (g_0(x))+ \frac{\lambda}{\rho}\Big) +\alpha_-H_\pi(x) - H_\pi^{\prime}(x)\cdot x \ge 0$ on $[0,\hat{x}_{g_0}]$.
-Note that 3. implies that $\hat{x}_{g_0} \leq \hat{x}_{g_\lambda}$.
+1. $g_0\in{C}^1([0,\hat{x}_{g_0}])$ is strictly increasing on $[0,\hat{x}_{g_0}]$,
+2. $g_0(0)=e^{-(1+\frac{\kappa \rho}{\lambda})}$,  and
+3. $-\alpha_-\Big(\kappa+\frac{\lambda}{\rho}\log(g_0(x))+\frac{\lambda}{\rho}\Big)+\alpha_-H_\pi(x)-H_\pi^{\prime}(x)\cdot x\ge 0$ on $[0,\hat{x}_{g_0}]$.
+Note that 3. implies that $\hat{x}_{g_0}\leq\hat{x}_{g_\lambda}$.
 
 
 ## Model-Based Numerical Analysis - Algorithm 1
@@ -26,10 +26,11 @@ Before we move on to the RL algorithm, we will present a numerical algorithm for
 
 1. Initialize $g_0(x)$ for $x\in[0,\infty)$ according to Assumption 4.4
 2. for $k=0,1,\cdots,K-1$
-3. &nbsp;&nbsp;&nbsp;&nbsp;Find $u_k(x,y) $  a ${C}^1(\mathbb{R}_+\times [0,1])\cap{C}^2\left(\overline{\mathcal{E}(g_k)}\right)$ solution to the following equations:
+3. &nbsp;&nbsp;&nbsp;&nbsp;Find $u_k(x,y)$  a ${C}^1(\mathbb{R}_+\times[0,1])\cap{C}^2\left(\overline{\mathcal{E}(g_k)}\right)$ solution to the following equations:
 $$
 (\mathcal{L}_x-\rho) u + \Big(\pi(x)-\rho \kappa \Big)y - \lambda y \log y =0\quad \text{on} \quad\mathcal{E}(g_k),
 $$
+
 $$
 -u_y = 0, \quad \text{on}\quad \mathcal{S}(g_k).
 $$
@@ -52,8 +53,8 @@ As we mentioned earlier, in the real world we will rarely know all the parameter
 2. <b>Generate:</b>  Sample path $(X^{x},Y^{y,\xi^{g}})$ under policy $\xi^{g}$ (defined in \eqref{eq:parameterized_policy}) 
 3. <b>Return:</b>
 $$
- \qquad \qquad   \int_0^\infty e^{-\rho t} \Big(\Big( \pi(X^{x}_t)-\rho \kappa\Big)Y^{y,\xi^{g}}_t - \lambda Y^{y,\xi^{g}}_t \log (Y^{y,\xi^{g}}_t)\Big) \text{d}t
- $$
+\qquad \qquad   \int_0^\infty e^{-\rho t} \Big(\Big( \pi(X^{x}_t)-\rho \kappa\Big)Y^{y,\xi^{g}}_t - \lambda Y^{y,\xi^{g}}_t \log (Y^{y,\xi^{g}}_t)\Big) \text{d}t
+$$
 
 For each initial position $(x,y)$ and threshold function $g$ provided by the learner, the generator will return an instantaneous reward function associated with a random path $X^x$ and the corresponding control $Y^{y,\xi^g}$ (see line 3. in Algorithm 3.). It is worth noting that the learner does not know the expression of the instantaneous reward function nor the generator of the dynamics.
 
