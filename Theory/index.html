@@ -1,0 +1,863 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Application of Reainforcement Learning in solving optimal stopping problems for real options.">
+      
+      
+      
+      
+      
+        <link rel="next" href="../notebooks/01_algorithm_1_pi_pi_os/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Theoretical Introduction - real_option_models_rl</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#reinforcement-learning-in-real-option-models-summary" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="real_option_models_rl" class="md-header__button md-logo" aria-label="real_option_models_rl" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            real_option_models_rl
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Theoretical Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home Page
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Theoretical Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../notebooks/01_algorithm_1_pi_pi_os/" class="md-tabs__link">
+          
+  
+  
+  Algorithms and Simulations
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="real_option_models_rl" class="md-nav__button md-logo" aria-label="real_option_models_rl" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    real_option_models_rl
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home Page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theoretical Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theoretical Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Theory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Theory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assumption-44" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assumption 4.4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-based-numerical-analysis-algorithm-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model-Based Numerical Analysis - Algorithm 1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model-Based Numerical Analysis - Algorithm 1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-1-policy-iteration-for-entropy-regularized-optimal-stopping-pi-lambda-os" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 1. Policy Iteration for Entropy-regularized Optimal Stopping (PI-\(\lambda\)-OS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-free-implementation-algorithm-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model-Free Implementation - Algorithm 4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model-Free Implementation - Algorithm 4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-3-simulator-mathcalg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 3. Simulator \(\mathcal{G}\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-4-sample-based-policy-iteration-for-exploratory-optimal-stopping-spi-lambda-os" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 4. Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-\(\lambda\)-OS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms and Simulations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms and Simulations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/01_algorithm_1_pi_pi_os/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithm 1 Policy Iteration for Entropy-regularized Optimal Stopping (PI-λ-OS)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/02_algorithm_4_spi_pi_os/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithm 4 Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-λ-OS)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Theory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Theory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assumption-44" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assumption 4.4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-based-numerical-analysis-algorithm-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model-Based Numerical Analysis - Algorithm 1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model-Based Numerical Analysis - Algorithm 1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-1-policy-iteration-for-entropy-regularized-optimal-stopping-pi-lambda-os" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 1. Policy Iteration for Entropy-regularized Optimal Stopping (PI-\(\lambda\)-OS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-free-implementation-algorithm-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model-Free Implementation - Algorithm 4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model-Free Implementation - Algorithm 4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-3-simulator-mathcalg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 3. Simulator \(\mathcal{G}\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-4-sample-based-policy-iteration-for-exploratory-optimal-stopping-spi-lambda-os" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 4. Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-\(\lambda\)-OS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="reinforcement-learning-in-real-option-models-summary">Reinforcement Learning in Real Option Models - Summary</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Optimal stopping problems are concepts in the field of stochastic processes, in which the main objective is to determine the best time to take a particular action in order to maximize expected rewards or minimize costs under uncertainty. </p>
+<p>In practice, we can imagine an investor who invests their capital in a risky asset, such as the price of a particular stock on the stock market. In this situation, the optimal stopping problem would be deciding when the investor should sell the stock to maximize the utility of their wealth. The price of such an asset constantly fluctuates over time, driven by a random stochastic process (typically GBM). Such an investor would like to know when to sell their shares in order to maximize expected utility of his portfolio. This is an example of the optimal stopping problem.</p>
+<p>Our main interest lies in the application of optimal stopping problems to real options, where the timing of an action in an uncertain environment plays a significant role. These approaches require knowledge of the underlying dynamics governing the system or access to critical parameters, about which we have limited knowledge in the real world situations. As a result, our implementations of optimal stopping problems are not sufficiently complex to be used in practical applications.</p>
+<p>For this reason, we use reinforcement learning (RL) methods that do not require knowledge of the full specifics of the system's dynamics. They can work around model uncertainty by learning optimal policies directly from simulated trajectories.</p>
+<h2 id="theory">Theory</h2>
+<h3 id="assumption-44">Assumption 4.4</h3>
+<p>Assume the initial policy <span class="arithmatex">\(g_0\)</span> satisfies the following conditions:</p>
+<p>1. <span class="arithmatex">\(g_0\in{C}^1([0,\hat{x}_{g_0}])\)</span> is strictly increasing on <span class="arithmatex">\([0,\hat{x}_{g_0}]\)</span>,</p>
+<p>2. <span class="arithmatex">\(g_0(0)=e^{-(1+\frac{\kappa \rho}{\lambda})}\)</span>,  and</p>
+<p>3. <span class="arithmatex">\(-\alpha_-\Big(\kappa+\frac{\lambda}{\rho}\log(g_0(x))+\frac{\lambda}{\rho}\Big)+\alpha_-H_\pi(x)-H_\pi^{\prime}(x)\cdot x\ge 0\)</span> on <span class="arithmatex">\([0,\hat{x}_{g_0}]\)</span>.</p>
+<p>Note that 3. implies that <span class="arithmatex">\(\hat{x}_{g_0}\leq\hat{x}_{g_\lambda}\)</span>.</p>
+<h2 id="model-based-numerical-analysis-algorithm-1">Model-Based Numerical Analysis - Algorithm 1</h2>
+<p>Before we move on to the RL algorithm, we will present a numerical algorithm for solving the optimal boundary problem in order to better illustrate the underlying mathematical theory. This algorithm makes use of the full knowledge of the system, hence it is called model-based.</p>
+<h3 id="algorithm-1-policy-iteration-for-entropy-regularized-optimal-stopping-pi-lambda-os">Algorithm 1. Policy Iteration for Entropy-regularized Optimal Stopping (PI-<span class="arithmatex">\(\lambda\)</span>-OS)</h3>
+<p>1. Initialize <span class="arithmatex">\(g_0(x)\)</span> for <span class="arithmatex">\(x\in[0,\infty)\)</span> according to Assumption 4.4</p>
+<p>2. <strong>for</strong> <span class="arithmatex">\(k=0,1,\dots,K-1\)</span></p>
+<p>3. &nbsp;&nbsp;&nbsp;&nbsp; Find <span class="arithmatex">\(u_k(x,y)\)</span> a <span class="arithmatex">\({C}^1(\mathbb{R}_+\times[0,1])\cap{C}^2\left(\overline{\mathcal{E}(g_k)}\right)\)</span> solution to the following equations:</p>
+<div class="arithmatex">\[
+(\mathcal{L}_x-\rho) u + \Big(\pi(x)-\rho \kappa \Big)y - \lambda y \log y =0\quad \text{on} \quad\mathcal{E}(g_k),
+\]</div>
+<div class="arithmatex">\[
+-u_y = 0, \quad \text{on}\quad \mathcal{S}(g_k).
+\]</div>
+<p>4. &nbsp;&nbsp;&nbsp;&nbsp; Update the strategy:</p>
+<div class="arithmatex">\[
+g_{k+1}(x) =
+\begin{cases}
+&amp; \max \Big\{y&lt; g_k(x)\,\Big| \partial_{xy} u_k(x,y) = 0 \Big\} \,\,\text{if} \,\, \partial_{xy}^- u_k(x,g_k(x))&lt;0, \\
+&amp; g_{k+1}(x) = g_k (x) \qquad \text{otherwise.}  
+\end{cases}
+\]</div>
+<p>5. <strong>end for</strong></p>
+<h2 id="model-free-implementation-algorithm-4">Model-Free Implementation - Algorithm 4</h2>
+<p>As we mentioned earlier, in the real world we will rarely know all the parameters of the model and the studied environment, without which we are unable to analytically determine the solution <span class="arithmatex">\(u_k\)</span>. In this situation, we assume that we have access to an environment simulator (see Algorithm 3).</p>
+<h3 id="algorithm-3-simulator-mathcalg">Algorithm 3. Simulator <span class="arithmatex">\(\mathcal{G}\)</span></h3>
+<p>1. <strong>Input:</strong> Threshold function <span class="arithmatex">\(g\)</span>, initial position <span class="arithmatex">\((x,y)\)</span></p>
+<p>2. <strong>Generate:</strong> Sample path <span class="arithmatex">\((X^{x},Y^{y,\xi^{g}})\)</span> under policy <span class="arithmatex">\(\xi^{g}\)</span> (defined in equation)</p>
+<p>3. <strong>Return:</strong></p>
+<div class="arithmatex">\[
+\qquad \qquad \int_0^\infty e^{-\rho t} \Big(\Big( \pi(X^{x}_t)-\rho \kappa\Big)Y^{y,\xi^{g}}_t - \lambda Y^{y,\xi^{g}}_t \log (Y^{y,\xi^{g}}_t)\Big) \text{d}t
+\]</div>
+<p>For each initial position <span class="arithmatex">\((x,y)\)</span> and threshold function <span class="arithmatex">\(g\)</span> provided by the learner, the generator will return an instantaneous reward function associated with a random path <span class="arithmatex">\(X^x\)</span> and the corresponding control <span class="arithmatex">\(Y^{y,\xi^g}\)</span> (see line 3. in Algorithm 3.). It is worth noting that the learner does not know the expression of the instantaneous reward function nor the generator of the dynamics.</p>
+<h3 id="algorithm-4-sample-based-policy-iteration-for-exploratory-optimal-stopping-spi-lambda-os">Algorithm 4. Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-<span class="arithmatex">\(\lambda\)</span>-OS)</h3>
+<p>1. Initialize <span class="arithmatex">\(g_0(x)\)</span> according to Assumption 4.4. Specify a grid size <span class="arithmatex">\(\delta_x\)</span> for partitioning the <span class="arithmatex">\(x\)</span>-axis and a grid size <span class="arithmatex">\(\delta_y\)</span> for partitioning the <span class="arithmatex">\(y\)</span>-axis. Also, specify an upper bound <span class="arithmatex">\(\bar x:=N\delta_x\)</span>.</p>
+<p>2. <strong>for</strong> <span class="arithmatex">\(k=0,1,\dots,K-1\)</span></p>
+<p>3. &nbsp;&nbsp;&nbsp;&nbsp; <strong>for</strong> <span class="arithmatex">\(x\in\{0,\delta_x,2\delta_x,\dots,N\delta_x\}\)</span> and <span class="arithmatex">\(y\in \{0,\delta_y,2\delta_y,\dots,\lfloor1/\delta_y\rfloor \}\)</span></p>
+<p>4. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>for</strong> <span class="arithmatex">\(m=1,\dots,M\)</span></p>
+<p>5. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Acquire the simulator <span class="arithmatex">\(u^{(m)}_k(x,y) = \mathcal{G}(x,y,g_k)\)</span></p>
+<p>6. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>end for</strong></p>
+<p>7. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Calculate the approximated value function <span class="arithmatex">\(\bar u_k(x,y) = \frac{\sum_{m=1}^M u^{(m)}_k(x,y)}{M}\)</span></p>
+<p>8. &nbsp;&nbsp;&nbsp;&nbsp; <strong>end for</strong></p>
+<p>9. &nbsp;&nbsp;&nbsp;&nbsp; Update the strategy:</p>
+<div class="arithmatex">\[
+g_{k+1}(x) =
+\begin{cases}
+&amp; \max \Big\{y&lt; g_k(x)\,\Big| \partial_{xy} \bar u_k(x,y) = 0 \Big\} \,\,\text{if} \,\, \partial_{xy}^- \bar u_k(x,g_k(x))&lt;0, \\
+&amp; g_{k+1}(x) = g_k (x) \qquad \text{otherwise}  
+\end{cases}
+\]</div>
+<p>10. end for</p>
+<p>By interacting with the generator, the learner approximates the value function by acquiring instantaneous rewards along multiple trajectories and take the average (see line 7. in Algorithm 4.). We require independent randomness across <span class="arithmatex">\(M\)</span> paths. Mathematically, it means that the state processes are driven by independent Brownian motions.  The learner then implements a sample-based version of the Policy Improvement step (see line 9. in Algorithm 4.). Note that the entire implementation avoids estimating model parameters. Instead, it iteratively updates the policy boundary. Therefore, this approach is referred to as a model-free implementation.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
