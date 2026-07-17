@@ -3,7 +3,7 @@
 ## Introduction
 Optimal stopping problems are concepts in the field of stochastic processes, in which the main objective is to determine the best time to take a particular action in order to maximize expected rewards or minimize costs under uncertainty. 
 
-In practice, we can imagine an investor who invests their capital in a risky asset, such as the price of a particular stock on the stock market. In this situation, the optimal stopping problem would be deciding when the investor should sell the stock to maximize the utility of their wealth. The price of such an asset constantly fluctuates over time, driven by a random stochastic process (typically GBM). Such an investor would like to know when to sell their shares in order to maximize expected utility of his portfolio. This is an example of the optimal stopping problem.
+In practice, we can imagine an investor who invests their capital in a risky asset, such as the price of a particular stock on the stock market. The price of such an asset constantly fluctuates over time, driven by a random stochastic process (typically GBM). Such an investor would like to know when to sell their shares in order to maximize expected utility of his portfolio. This is an example of the optimal stopping problem.
 
 Our main interest lies in the application of optimal stopping problems to real options, where the timing of an action in an uncertain environment plays a significant role. These approaches require knowledge of the underlying dynamics governing the system or access to critical parameters, about which we have limited knowledge in the real world situations. As a result, our implementations of optimal stopping problems are not sufficiently complex to be used in practical applications.
 
@@ -100,3 +100,6 @@ $$
 10\. end for
 
 By interacting with the generator, the learner approximates the value function by acquiring instantaneous rewards along multiple trajectories and take the average (see line 7. in Algorithm 4.). We require independent randomness across $M$ paths. Mathematically, it means that the state processes are driven by independent Brownian motions.  The learner then implements a sample-based version of the Policy Improvement step (see line 9. in Algorithm 4.). Note that the entire implementation avoids estimating model parameters. Instead, it iteratively updates the policy boundary. Therefore, this approach is referred to as a model-free implementation.
+
+## References
+Dianetti, J., Ferrari, G., & Xu, R. (2026). *Reinforcement Learning in Real Option Models*
