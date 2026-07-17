@@ -1,0 +1,17 @@
+:root [data-md-color-scheme="slate"] {
+    --md-default-bg-color: #0f111a;
+    --md-default-bg-color--light: #1e2233;
+    --md-code-bg-color: #212433;
+}
+
+/* TŁO DLA TRYBU JASNEGO (default) */
+:root [data-md-color-scheme="default"] {
+    --md-default-bg-color: #f4f6f9;
+    --md-code-bg-color: #eef1f6;
+}
+
+:root  > * {
+  --md-primary-fg-color:        #372b4a;
+  --md-primary-fg-color--light: #a791be;
+  --md-primary-fg-color--dark:  #2b1a42;
+}
