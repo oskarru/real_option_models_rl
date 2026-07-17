@@ -1,4 +1,5 @@
 # real_option_models_rl
+[project website](https://oskarru.github.io/real_option_models_rl/)
 
 ## About
 This repository contains algorithms that solve optimal stopping problems motivated by real option models. The algorithms were proposed by the authors Jodi Dianetti, Giorgio Ferrari, and Renyuan Xu in their paper ''Reinforcement Learning in Real Option Models''. I have implemented their proposed algorithms into functioning Python code.
