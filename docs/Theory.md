@@ -12,16 +12,21 @@ For this reason, we use reinforcement learning (RL) methods that do not require 
 
 ## Theory
 The classic equation of wealth dynamics is Geometric Brownian Motion, expressed by the following formula
+
 $$
 \text{d} X_t^x=\mu X_t^x\,\text{d} t+\sigma X_t^x\,\text{d} W_t,\qquad X_0^x=x>0,
 $$
-where expected rate of return (drift) $\mu \in \R$ and standard deviation of returns $\sigma > 0$.
+
+where expected rate of return (drift) $\mu \in \mathbb{R}$ and standard deviation of returns $\sigma > 0$.
 
 We consider the following classical real option/optimal stopping problem
+
 $$
 V(x)=\sup_{\tau\in\mathcal T}\mathbb{E}\left[\int_0^\tau e^{-\rho t}\bigl(\pi(X_t^x)-\rho\kappa\bigr)\,\text{d} t\right],
 $$
-where $\rho > \mu$ and running profit $\pi: \R_+ \rightarrow \R$ is expressed as
+
+where $\rho > \mu$ and running profit $\pi: \mathbb{R}_+ \rightarrow \mathbb{R}$ is expressed as
+
 $$
 \pi(x)=x^\theta, \qquad 0<\theta<1.
 $$
@@ -30,10 +35,13 @@ $$
 To encourage exploration by the agent, we must introduce a regularization term so the optimal strategy incorporates randomness.By punishing purely deterministic policies, the entropy term forces the agent to maintain a probability distribution over its actions. This prevents premature convergence to a suboptimal strategy and naturally drives the agent to continuously explore different states.
 
 We introduce the extra state variable $y\in[0,1]$ describing the probability of continuation (i.e., the likelihood that the agent has not yet exercised the option up to the current time). For $\lambda > 0$, we define the updated singular control problem
+
 $$
 V^\lambda(x,y)=\sup_{\xi}\mathbb{E}\left[\int_0^\infty e^{-\rho t}\Bigl((x^\theta-\rho\kappa)Y_t^{y,\xi}-\lambda Y_t^{y,\xi}\log Y_t^{y,\xi}\Bigr)\,\text{d} t\right].
 $$
+
 To solve this stochastic control problem and find the optimal value function $V^\lambda(x,y)$, we rely on the Hamilton-Jacobi-Bellman (HJB) equation, which is the fundamental partial differential equation defining the necessary and sufficient conditions for optimality. In our case, the HJB equation takes the following form
+
 $$
 \max\left\{
 		(\mathcal L_x-\rho)V^\lambda(x,y)
@@ -43,7 +51,8 @@ $$
 		-\partial_y V^\lambda(x,y)
 		\right\}=0,
 $$
-with boundary condition $V(x, 0)=0$, $x \in (0,\infty)$, where  $\mathcal L _x \phi (x) := \mu x \phi_x (x) + \frac{1}{2} \sigma^2 {x^2} \phi_{xx} (x) $.
+
+with boundary condition $V(x, 0)=0$, $x \in (0,\infty)$, where  $\mathcal{L}_x \phi (x) := \mu x \phi_x (x) + \frac{1}{2} \sigma^2 {x^2} \phi_{xx} (x)$.
 
 ### The Optimal Decision Boundary
 Before presenting the formal analytical solution, it is crucial to understand the role of the threshold function $g(x)$. In optimal stopping problems, $g(x)$ acts as a decision boundary (often called the free boundary) that splits the state space into two regions: the continuation region (where the agent should wait) and the stopping region (where the agent should take action). In our regularized setting, $g_\lambda(x)$ defines the optimal threshold for the continuation probability $y$.
@@ -51,18 +60,24 @@ Before presenting the formal analytical solution, it is crucial to understand th
 ### Theorem 3.1 (The solution to the entropy-regularized real option problem)
 Let $(x,y) \in (0,\infty) \times [0,1]$ be given and fixed.
 Introduce the nondecreasing function
+
 $$
     g_{\lambda}(x) := \exp \left( \frac{-\frac{H_\pi'(x)}{\alpha_-}x+H_\pi(x)-\kappa - \frac{\lambda}{\rho}}{\frac{\lambda}{\rho}}\right) \wedge 1,
 $$
-such that $y^\lambda:= g_\lambda(0) = e^{-1-\frac{\kappa \rho}{\lambda} }$,
+
+such that $y^\lambda:= g_\lambda(0) = e^{-1-\frac{\kappa \rho}{\lambda}}$,
 and define
+
 $$
 H_\pi(x) := \mathbb{E}\left[\int_0^\infty e^{-\rho t}\pi(X_t^x)\text{d} t\right],
 $$
+
 $$
 A_{2}(y) :=\int_{g_\lambda(0)}^y  \frac{\kappa  +\frac{\lambda}{\rho}  \log (u)+ \frac{\lambda}{\rho}- H_\pi(g_\lambda^{-1}(u))}{(g_\lambda^{-1}(u))^{\alpha_-}} \text{d} u.
 $$
+
 Then, letting $F(x, y):=A_{2} (y) \,x^{\alpha_-} + H_\pi(x)y - \kappa y -\frac{\lambda}{\rho} y \log y$, the value of the entropy-regularized real option problem \eqref{eq entropy real option OS} is given by 
+
 $$
 V^{\lambda}(x,y) =
 \begin{cases}
@@ -71,11 +86,14 @@ F(x, y), & y\leq g_\lambda (x), \ y \geq y^\lambda, \\
 F(x, b_\lambda^{-1} (x) ), & y> g_\lambda (x), \ y \geq y^\lambda, 
 \end{cases}
 $$
+
 and the reflection policy 
+
 $$
 \xi_{t}^\lambda := 
 \sup\limits_{0 \leq s \leq t} \big( y - g_{\lambda} (X_s^x) \big)^{+}, \quad t>0, \quad \xi_{0^-}^\lambda =0,
 $$ 
+
 is optimal for the initial condition $(x,y) \in (0,\infty) \times [0,1]$.
 
 ### Reinforcement Learning and Policy Initialization
@@ -94,19 +112,24 @@ Note that 3. implies that $\hat{x}_{g_0}\leq\hat{x}_{g_\lambda}$.
 
 ### Initialization functions that satisfy Assumption 4.4
 For linear initialization, we take:
+
 $$
     g_0(x) = \min\left\{e^{-(1+\frac{\kappa\rho}{\lambda})} +2 (1-e^{-(1+\frac{\kappa\rho}{\lambda})})\Big(\frac{- \alpha_- \big(\kappa  +\frac{\lambda}{\rho}\big)}{\theta-\alpha_-}\Big)^{\theta}x, 1\right\},
 $$
+
 which interpolates $(x_0,y_0)$ and $(x_1,y_1)$ with
 $x_0=0$, $y_0=e^{-(1+\frac{\kappa\rho}{\lambda})}$, $x_1 =  \frac{1}{2}\Big(\frac{- \alpha_- \big(\kappa  +\frac{\lambda}{\rho}\big)}{\theta-\alpha_-}\Big)^{-\theta}$ and $y_1=1$. 
 
 For exponential initialization, we can take 
+
 $$
     g_0(x) = \min\left\{\exp\Big(\frac{\rho (\zeta-\alpha_-) (x)^{\zeta}}{- \alpha_-\lambda} - \frac{\rho}{\lambda}( \kappa+  \frac{\lambda}{\rho} )\Big), 1\right\},
 $$
+
 for some $\zeta\in(\theta,1)$.
 
 Furthermore, based on Theorem 3.1 we have defined an explicit form of the boundary for the power function
+
 $$
 g_\lambda(x)
 		=
@@ -118,16 +141,20 @@ g_\lambda(x)
 		-1
 		\right)\wedge 1,
 $$
+
 where
+
 $$
 P=\rho-\theta\mu-\frac{\sigma^2}{2}\theta(\theta-1),
 $$
+
 $$
 \alpha_\pm=
 		\frac{ -\left(\mu-\frac{\sigma^2}{2}\right)\pm
 			\sqrt{\left(\mu-\frac{\sigma^2}{2}\right)^2+2\rho\sigma^2}}
 		{\sigma^2}.
 $$
+
 (This function will serve as out $g_{\text{true}}$ and analytical initialization for testing Algorithm 1 and 4.)
 
 ## Model-Based Numerical Analysis - Algorithm 1
@@ -160,9 +187,15 @@ $$
 
 5\. **end for**
 
+Algorithm 1 follows a classical Policy Iteration framework consisting of two main phases: Policy Evaluation (Step 3) and Policy Improvement (Step 4).
+
+**Policy Evaluation**: The threshold function $g_k(x)$ splits the state space into two distinct regions: the continuation/exploration region $\mathcal{E}(g_k)$ (where $y < g_k(x)$) and the stopping region $\mathcal{S}(g_k)$ (where $y \geq g_k(x)$). In Step 3, the algorithm evaluates the current policy by analytically solving the continuous-time Hamilton-Jacobi-Bellman (HJB) equation. In the continuation region $\mathcal{E}(g_k)$, the value function $u_k$ satisfies the complex partial differential equation (PDE) driven by the infinitesimal generator $\mathcal{L}_x$. In the stopping region $\mathcal{S}(g_k)$, the optimal action is to stop, which enforces the boundary condition $-u_y = 0$.
+
+**Policy Improvement**: In Step 4, the algorithm attempts to update the threshold $g_k(x)$ by examining the marginal value of continuation. If the left-sided mixed derivative $\partial_{xy}^- u_k(x,g_k(x))$ is strictly negative, it indicates that the current threshold is placed too high, and the marginal benefit of continuing is decreasing. The algorithm then lowers the boundary by finding a new optimal point $y < g_k(x)$ where the mixed derivative equals zero (indicating a local maximum of the continuation value).
+
 
 ## Model-Free Implementation - Algorithm 4
-As we mentioned earlier, in the real world we will rarely know all the parameters of the model and the studied environment, without which we are unable to analytically determine the solution $u_k$. In this situation, we assume that we have access to an environment simulator (see Algorithm 3).
+Algorithm 1 represents a classical Stochastic Control approach (Dynamic Programming): it requires full, explicit knowledge of the system's governing equations (such as the exact physical laws, transition probabilities, and the HJB formulation) to compute the solution mathematically. It does not "learn"; it calculates. That's why we need to introduce the model-free approach. In this situation, we assume that we have access to an environment simulator.
 
 ### Algorithm 3. Simulator $\mathcal{G}$
 1\. **Input:** Threshold function $g$, initial position $(x,y)$
@@ -175,7 +208,7 @@ $$
 \qquad \qquad \int_0^\infty e^{-\rho t} \Big(\Big( \pi(X^{x}_t)-\rho \kappa\Big)Y^{y,\xi^{g}}_t - \lambda Y^{y,\xi^{g}}_t \log (Y^{y,\xi^{g}}_t)\Big) \text{d}t
 $$
 
-For each initial position $(x,y)$ and threshold function $g$ provided by the learner, the generator will return an instantaneous reward function associated with a random path $X^x$ and the corresponding control $Y^{y,\xi^g}$ (see line 3. in Algorithm 3.). It is worth noting that the learner does not know the expression of the instantaneous reward function nor the generator of the dynamics.
+Algorithm 3 serves as the Environment. For a given starting state $(x,y)$ and a specific threshold policy $g$, the simulator generates a single random Monte Carlo sample path (governed by the underlying Geometric Brownian Motion dynamics). It then calculates and returns the total discounted cumulative reward for that specific trajectory based on the regularized optimal stopping formula. The learning agent relies entirely on these returned rewards, without needing any prior knowledge of the underlying stochastic differential equations or the explicit HJB formulation.
 
 ### Algorithm 4. Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-$\lambda$-OS)
 1\. Initialize $g_0(x)$ according to Assumption 4.4. Specify a grid size $\delta_x$ for partitioning the $x$-axis and a grid size $\delta_y$ for partitioning the $y$-axis. Also, specify an upper bound $\bar x:=N\delta_x$.
@@ -206,7 +239,13 @@ $$
 
 10\. **end for**
 
-By interacting with the generator, the learner approximates the value function by acquiring instantaneous rewards along multiple trajectories and take the average (see line 7. in Algorithm 4.). We require independent randomness across $M$ paths. Mathematically, it means that the state processes are driven by independent Brownian motions.  The learner then implements a sample-based version of the Policy Improvement step (see line 9. in Algorithm 4.). Note that the entire implementation avoids estimating model parameters. Instead, it iteratively updates the policy boundary. Therefore, this approach is referred to as a model-free implementation.
+Algorithm 4 is the model-free counterpart to Algorithm 1. It approximates the optimal boundary using empirical data generated by the simulator (Algorithm 3).
+
+**Empirical Policy Evaluation (Steps 3-8)**: Instead of solving the HJB equation across the entire continuous space, the algorithm discretizes the state space into a grid. For each coordinate on the grid, the agent queries the simulator to generate $M$ independent Monte Carlo sample paths (Steps 4-6). By averaging the cumulative rewards from these paths (Step 7), the agent calculates an empirical estimate of the value function $\bar u_k(x,y)$ according to the Law of Large Numbers.
+
+**Strategy Update (Step 9)**: The improvement step functions identically to Algorithm 1. However, instead of finding the root of an analytical derivative, the algorithm numerically investigates the estimated function $\bar u_k(x,y)$ to adjust the threshold $g_{k+1}(x)$ based on the approximated gradients.
+
+Algorithm 4 operates strictly under the Reinforcement Learning (RL). The RL agent does not have access to the underlying stochastic differential equations governing the asset's price. Instead, it must discover the optimal strategy through trial-and-error interaction. By continuously querying the environment simulator (Algorithm 3), collecting random sample paths, and observing the resulting delayed rewards, the agent builds an empirical estimation of the value function based solely on its simulated experiences.
 
 ## References
-Dianetti, J., Ferrari, G., & Xu, R. (2026). *Reinforcement Learning in Real Option Models*
+Dianetti, J., Ferrari, G., & Xu, R. (2026). [*Reinforcement Learning in Real Option Models*](https://arxiv.org/abs/2602.15643)
