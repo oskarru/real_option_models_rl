@@ -906,67 +906,67 @@
 <p>Our main interest lies in the application of optimal stopping problems to real options, where the timing of an action in an uncertain environment plays a significant role. These approaches require knowledge of the underlying dynamics governing the system or access to critical parameters, about which we have limited knowledge in the real world situations. As a result, our implementations of optimal stopping problems are not sufficiently complex to be used in practical applications.</p>
 <p>For this reason, we use reinforcement learning (RL) methods that do not require knowledge of the full specifics of the system's dynamics. They can work around model uncertainty by learning optimal policies directly from simulated trajectories.</p>
 <h2 id="theory">Theory</h2>
-<p>The classic equation of wealth dynamics is Geometric Brownian Motion, expressed by the following formula
-$$
+<p>The classic equation of wealth dynamics is Geometric Brownian Motion, expressed by the following formula</p>
+<div class="arithmatex">\[
 \text{d} X_t^x=\mu X_t^x\,\text{d} t+\sigma X_t^x\,\text{d} W_t,\qquad X_0^x=x&gt;0,
-$$
-where expected rate of return (drift) <span class="arithmatex">\(\mu \in \R\)</span> and standard deviation of returns <span class="arithmatex">\(\sigma &gt; 0\)</span>.</p>
-<p>We consider the following classical real option/optimal stopping problem
-$$
+\]</div>
+<p>where expected rate of return (drift) <span class="arithmatex">\(\mu \in \mathbb{R}\)</span> and standard deviation of returns <span class="arithmatex">\(\sigma &gt; 0\)</span>.</p>
+<p>We consider the following classical real option/optimal stopping problem</p>
+<div class="arithmatex">\[
 V(x)=\sup_{\tau\in\mathcal T}\mathbb{E}\left[\int_0^\tau e^{-\rho t}\bigl(\pi(X_t^x)-\rho\kappa\bigr)\,\text{d} t\right],
-$$
-where <span class="arithmatex">\(\rho &gt; \mu\)</span> and running profit <span class="arithmatex">\(\pi: \R_+ \rightarrow \R\)</span> is expressed as
-$$
+\]</div>
+<p>where <span class="arithmatex">\(\rho &gt; \mu\)</span> and running profit <span class="arithmatex">\(\pi: \mathbb{R}_+ \rightarrow \mathbb{R}\)</span> is expressed as</p>
+<div class="arithmatex">\[
 \pi(x)=x^\theta, \qquad 0&lt;\theta&lt;1.
-$$</p>
+\]</div>
 <h3 id="entropy-regularization">Entropy regularization</h3>
 <p>To encourage exploration by the agent, we must introduce a regularization term so the optimal strategy incorporates randomness.By punishing purely deterministic policies, the entropy term forces the agent to maintain a probability distribution over its actions. This prevents premature convergence to a suboptimal strategy and naturally drives the agent to continuously explore different states.</p>
-<p>We introduce the extra state variable <span class="arithmatex">\(y\in[0,1]\)</span> describing the probability of continuation (i.e., the likelihood that the agent has not yet exercised the option up to the current time). For <span class="arithmatex">\(\lambda &gt; 0\)</span>, we define the updated singular control problem
-$$
+<p>We introduce the extra state variable <span class="arithmatex">\(y\in[0,1]\)</span> describing the probability of continuation (i.e., the likelihood that the agent has not yet exercised the option up to the current time). For <span class="arithmatex">\(\lambda &gt; 0\)</span>, we define the updated singular control problem</p>
+<div class="arithmatex">\[
 V^\lambda(x,y)=\sup_{\xi}\mathbb{E}\left[\int_0^\infty e^{-\rho t}\Bigl((x^\theta-\rho\kappa)Y_t^{y,\xi}-\lambda Y_t^{y,\xi}\log Y_t^{y,\xi}\Bigr)\,\text{d} t\right].
-$$
-To solve this stochastic control problem and find the optimal value function <span class="arithmatex">\(V^\lambda(x,y)\)</span>, we rely on the Hamilton-Jacobi-Bellman (HJB) equation, which is the fundamental partial differential equation defining the necessary and sufficient conditions for optimality. In our case, the HJB equation takes the following form
-$$
-\max\left{
+\]</div>
+<p>To solve this stochastic control problem and find the optimal value function <span class="arithmatex">\(V^\lambda(x,y)\)</span>, we rely on the Hamilton-Jacobi-Bellman (HJB) equation, which is the fundamental partial differential equation defining the necessary and sufficient conditions for optimality. In our case, the HJB equation takes the following form</p>
+<div class="arithmatex">\[
+\max\left\{
         (\mathcal L_x-\rho)V^\lambda(x,y)
         +
         (x^\theta-\rho\kappa)y
         -\lambda y\log y,\,
         -\partial_y V^\lambda(x,y)
-        \right}=0,
-$$
-with boundary condition <span class="arithmatex">\(V(x, 0)=0\)</span>, <span class="arithmatex">\(x \in (0,\infty)\)</span>, where  $\mathcal L <em>x \phi (x) := \mu x \phi_x (x) + \frac{1}{2} \sigma^2 {x^2} \phi</em>{xx} (x) $.</p>
+        \right\}=0,
+\]</div>
+<p>with boundary condition <span class="arithmatex">\(V(x, 0)=0\)</span>, <span class="arithmatex">\(x \in (0,\infty)\)</span>, where  <span class="arithmatex">\(\mathcal{L}_x \phi (x) := \mu x \phi_x (x) + \frac{1}{2} \sigma^2 {x^2} \phi_{xx} (x)\)</span>.</p>
 <h3 id="the-optimal-decision-boundary">The Optimal Decision Boundary</h3>
 <p>Before presenting the formal analytical solution, it is crucial to understand the role of the threshold function <span class="arithmatex">\(g(x)\)</span>. In optimal stopping problems, <span class="arithmatex">\(g(x)\)</span> acts as a decision boundary (often called the free boundary) that splits the state space into two regions: the continuation region (where the agent should wait) and the stopping region (where the agent should take action). In our regularized setting, <span class="arithmatex">\(g_\lambda(x)\)</span> defines the optimal threshold for the continuation probability <span class="arithmatex">\(y\)</span>.</p>
 <h3 id="theorem-31-the-solution-to-the-entropy-regularized-real-option-problem">Theorem 3.1 (The solution to the entropy-regularized real option problem)</h3>
 <p>Let <span class="arithmatex">\((x,y) \in (0,\infty) \times [0,1]\)</span> be given and fixed.
-Introduce the nondecreasing function
-$$
+Introduce the nondecreasing function</p>
+<div class="arithmatex">\[
     g_{\lambda}(x) := \exp \left( \frac{-\frac{H_\pi'(x)}{\alpha_-}x+H_\pi(x)-\kappa - \frac{\lambda}{\rho}}{\frac{\lambda}{\rho}}\right) \wedge 1,
-$$
-such that <span class="arithmatex">\(y^\lambda:= g_\lambda(0) = e^{-1-\frac{\kappa \rho}{\lambda} }\)</span>,
-and define
-$$
+\]</div>
+<p>such that <span class="arithmatex">\(y^\lambda:= g_\lambda(0) = e^{-1-\frac{\kappa \rho}{\lambda}}\)</span>,
+and define</p>
+<div class="arithmatex">\[
 H_\pi(x) := \mathbb{E}\left[\int_0^\infty e^{-\rho t}\pi(X_t^x)\text{d} t\right],
-$$
-$$
+\]</div>
+<div class="arithmatex">\[
 A_{2}(y) :=\int_{g_\lambda(0)}^y  \frac{\kappa  +\frac{\lambda}{\rho}  \log (u)+ \frac{\lambda}{\rho}- H_\pi(g_\lambda^{-1}(u))}{(g_\lambda^{-1}(u))^{\alpha_-}} \text{d} u.
-$$
-Then, letting <span class="arithmatex">\(F(x, y):=A_{2} (y) \,x^{\alpha_-} + H_\pi(x)y - \kappa y -\frac{\lambda}{\rho} y \log y\)</span>, the value of the entropy-regularized real option problem \eqref{eq entropy real option OS} is given by 
-$$
+\]</div>
+<p>Then, letting <span class="arithmatex">\(F(x, y):=A_{2} (y) \,x^{\alpha_-} + H_\pi(x)y - \kappa y -\frac{\lambda}{\rho} y \log y\)</span>, the value of the entropy-regularized real option problem \eqref{eq entropy real option OS} is given by </p>
+<div class="arithmatex">\[
 V^{\lambda}(x,y) =
 \begin{cases}
-H_\pi(x)y - \kappa y - \frac{\lambda}{\rho} y \log y, &amp; y<y^\lambda, \\
-F(x, y), & y\leq g_\lambda (x), \ y \geq y^\lambda, \\
-F(x, b_\lambda^{-1} (x) ), & y> g_\lambda (x), \ y \geq y^\lambda, 
+H_\pi(x)y - \kappa y - \frac{\lambda}{\rho} y \log y, &amp; y&lt;y^\lambda, \\
+F(x, y), &amp; y\leq g_\lambda (x), \ y \geq y^\lambda, \\
+F(x, b_\lambda^{-1} (x) ), &amp; y&gt; g_\lambda (x), \ y \geq y^\lambda, 
 \end{cases}
-$$
-and the reflection policy 
-$$
+\]</div>
+<p>and the reflection policy </p>
+<div class="arithmatex">\[
 \xi_{t}^\lambda := 
 \sup\limits_{0 \leq s \leq t} \big( y - g_{\lambda} (X_s^x) \big)^{+}, \quad t&gt;0, \quad \xi_{0^-}^\lambda =0,
-$$ 
-is optimal for the initial condition <span class="arithmatex">\((x,y) \in (0,\infty) \times [0,1]\)</span>.</p>
+\]</div>
+<p>is optimal for the initial condition <span class="arithmatex">\((x,y) \in (0,\infty) \times [0,1]\)</span>.</p>
 <h3 id="reinforcement-learning-and-policy-initialization">Reinforcement Learning and Policy Initialization</h3>
 <p>While Theorem 3.1 provides the exact mathematical solution, deriving it analytically is often impossible for more complex environments. Therefore, we utilize Reinforcement Learning (RL) algorithms to approximate the optimal boundary numerically. In this approach, the learning agent must start with a prior guess of the boundary - an initial policy <span class="arithmatex">\(g_0(x)\)</span> - and iteratively improve it by interacting with the environment and collecting simulated data.</p>
 <h3 id="assumption-44">Assumption 4.4</h3>
@@ -976,19 +976,19 @@ is optimal for the initial condition <span class="arithmatex">\((x,y) \in (0,\in
 <p>3. <span class="arithmatex">\(-\alpha_-\Big(\kappa+\frac{\lambda}{\rho}\log(g_0(x))+\frac{\lambda}{\rho}\Big)+\alpha_-H_\pi(x)-H_\pi^{\prime}(x)\cdot x\ge 0\)</span> on <span class="arithmatex">\([0,\hat{x}_{g_0}]\)</span>.</p>
 <p>Note that 3. implies that <span class="arithmatex">\(\hat{x}_{g_0}\leq\hat{x}_{g_\lambda}\)</span>.</p>
 <h3 id="initialization-functions-that-satisfy-assumption-44">Initialization functions that satisfy Assumption 4.4</h3>
-<p>For linear initialization, we take:
-$$
-    g_0(x) = \min\left{e^{-(1+\frac{\kappa\rho}{\lambda})} +2 (1-e^{-(1+\frac{\kappa\rho}{\lambda})})\Big(\frac{- \alpha_- \big(\kappa  +\frac{\lambda}{\rho}\big)}{\theta-\alpha_-}\Big)^{\theta}x, 1\right},
-$$
-which interpolates <span class="arithmatex">\((x_0,y_0)\)</span> and <span class="arithmatex">\((x_1,y_1)\)</span> with
+<p>For linear initialization, we take:</p>
+<div class="arithmatex">\[
+    g_0(x) = \min\left\{e^{-(1+\frac{\kappa\rho}{\lambda})} +2 (1-e^{-(1+\frac{\kappa\rho}{\lambda})})\Big(\frac{- \alpha_- \big(\kappa  +\frac{\lambda}{\rho}\big)}{\theta-\alpha_-}\Big)^{\theta}x, 1\right\},
+\]</div>
+<p>which interpolates <span class="arithmatex">\((x_0,y_0)\)</span> and <span class="arithmatex">\((x_1,y_1)\)</span> with
 <span class="arithmatex">\(x_0=0\)</span>, <span class="arithmatex">\(y_0=e^{-(1+\frac{\kappa\rho}{\lambda})}\)</span>, <span class="arithmatex">\(x_1 =  \frac{1}{2}\Big(\frac{- \alpha_- \big(\kappa  +\frac{\lambda}{\rho}\big)}{\theta-\alpha_-}\Big)^{-\theta}\)</span> and <span class="arithmatex">\(y_1=1\)</span>. </p>
-<p>For exponential initialization, we can take 
-$$
-    g_0(x) = \min\left{\exp\Big(\frac{\rho (\zeta-\alpha_-) (x)^{\zeta}}{- \alpha_-\lambda} - \frac{\rho}{\lambda}( \kappa+  \frac{\lambda}{\rho} )\Big), 1\right},
-$$
-for some <span class="arithmatex">\(\zeta\in(\theta,1)\)</span>.</p>
-<p>Furthermore, based on Theorem 3.1 we have defined an explicit form of the boundary for the power function
-$$
+<p>For exponential initialization, we can take </p>
+<div class="arithmatex">\[
+    g_0(x) = \min\left\{\exp\Big(\frac{\rho (\zeta-\alpha_-) (x)^{\zeta}}{- \alpha_-\lambda} - \frac{\rho}{\lambda}( \kappa+  \frac{\lambda}{\rho} )\Big), 1\right\},
+\]</div>
+<p>for some <span class="arithmatex">\(\zeta\in(\theta,1)\)</span>.</p>
+<p>Furthermore, based on Theorem 3.1 we have defined an explicit form of the boundary for the power function</p>
+<div class="arithmatex">\[
 g_\lambda(x)
         =
         \exp\left(
@@ -998,18 +998,18 @@ g_\lambda(x)
         \right]
         -1
         \right)\wedge 1,
-$$
-where
-$$
+\]</div>
+<p>where</p>
+<div class="arithmatex">\[
 P=\rho-\theta\mu-\frac{\sigma^2}{2}\theta(\theta-1),
-$$
-$$
+\]</div>
+<div class="arithmatex">\[
 \alpha_\pm=
         \frac{ -\left(\mu-\frac{\sigma^2}{2}\right)\pm
             \sqrt{\left(\mu-\frac{\sigma^2}{2}\right)^2+2\rho\sigma^2}}
         {\sigma^2}.
-$$
-(This function will serve as out <span class="arithmatex">\(g_{\text{true}}\)</span> and analytical initialization for testing Algorithm 1 and 4.)</p>
+\]</div>
+<p>(This function will serve as out <span class="arithmatex">\(g_{\text{true}}\)</span> and analytical initialization for testing Algorithm 1 and 4.)</p>
 <h2 id="model-based-numerical-analysis-algorithm-1">Model-Based Numerical Analysis - Algorithm 1</h2>
 <p>Before we move on to the RL algorithm, we will present a numerical algorithm for solving the optimal boundary problem in order to better illustrate the underlying mathematical theory. This algorithm makes use of the full knowledge of the system, hence it is called model-based.</p>
 <h3 id="algorithm-1-policy-iteration-for-entropy-regularized-optimal-stopping-pi-lambda-os">Algorithm 1. Policy Iteration for Entropy-regularized Optimal Stopping (PI-<span class="arithmatex">\(\lambda\)</span>-OS)</h3>
