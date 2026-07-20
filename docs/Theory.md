@@ -76,7 +76,7 @@ $$
 A_{2}(y) :=\int_{g_\lambda(0)}^y  \frac{\kappa  +\frac{\lambda}{\rho}  \log (u)+ \frac{\lambda}{\rho}- H_\pi(g_\lambda^{-1}(u))}{(g_\lambda^{-1}(u))^{\alpha_-}} \text{d} u.
 $$
 
-Then, letting $F(x, y):=A_{2} (y) \,x^{\alpha_-} + H_\pi(x)y - \kappa y -\frac{\lambda}{\rho} y \log y$, the value of the entropy-regularized real option problem \eqref{eq entropy real option OS} is given by 
+Then, letting $F(x, y):=A_{2} (y) \,x^{\alpha_-} + H_\pi(x)y - \kappa y -\frac{\lambda}{\rho} y \log y$, the value of the entropy-regularized real option problem is given by 
 
 $$
 V^{\lambda}(x,y) =

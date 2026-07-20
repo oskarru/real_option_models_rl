@@ -32,10 +32,8 @@ plugins:
 markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
-
-markdown_extensions:
-  - pymdownx.arithmatex:
-      generic: true
+  - md_in_html
+  - attr_list
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -47,6 +45,7 @@ nav:
   - Algorithms and Simulations:
     - Algorithm 1: notebooks/01_algorithm_1_pi_pi_os.ipynb
     - Algorithm 4: notebooks/02_algorithm_4_spi_pi_os.ipynb
+  - Results Gallery: gallery.md
 
 extra_css:
   - stylesheets/extra.css
