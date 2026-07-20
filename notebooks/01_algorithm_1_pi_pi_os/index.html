@@ -265,6 +265,25 @@
   
 
       
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../gallery/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Results Gallery
+
+      </a>
+    </li>
+  
+
+      
     </ul>
   </div>
 </nav>
@@ -640,6 +659,33 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2912,7 +2958,7 @@ Model reaches 1 at:     X = 4.4045
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-19">
@@ -3128,6 +3174,25 @@ Model reaches 1 at:     X = 4.3544
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="conclusions">Conclusions<a class="anchor-link" href="#conclusions">¶</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cb23e75b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Based on the experiments conducted for the model-based Policy Iteration algorithm, we can draw the following key conclusions:</p>
+<ol>
+<li><p><strong>Theoretical Consistency:</strong> The algorithm successfully replicates the underlying mathematical theory. When initialized with the theoretical boundary (<code>analytical initialization</code>), the algorithm converges immediately (at iteration 1) with an $L_1$ error of $0.000000$, proving that the true boundary is indeed a fixed point of the HJB-based policy update operator.</p>
+</li>
+<li><p><strong>Impact of Grid Resolution:</strong> The comparison between Variant 1 (coarse grid: $N_x=250$, $N_y=50$, $x_{max}=5$) and Variant 2 (fine grid: $N_x=1000$, $N_y=1000$, $x_{max}=50$) clearly demonstrates that a higher grid density and a wider state space domain are crucial for accuracy. For instance, under exponential initialization, the $L_1$ error drops significantly from $0.369$ (Variant 1) to $0.064$ (Variant 2), and the point where the model reaches the $y=1$ boundary perfectly aligns with the theoretical value.</p>
+</li>
+<li><p><strong>Initialization Choice and Convergence:</strong> The choice of the initial policy $g_0$ affects both the speed of convergence and the final accuracy. Exponential initialization performs notably better than linear initialization, converging faster (in 8 iterations vs. hitting the maximum limit) and yielding a much lower $L_1$ error on the fine grid. Overall, the model-based approach demonstrates fast convergence due to the exact analytical evaluation of the HJB equation.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
