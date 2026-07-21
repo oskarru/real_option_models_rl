@@ -54,8 +54,16 @@ $$
 
 with boundary condition $V(x, 0)=0$, $x \in (0,\infty)$, where  $\mathcal{L}_x \phi (x) := \mu x \phi_x (x) + \frac{1}{2} \sigma^2 {x^2} \phi_{xx} (x)$.
 
+
 ### The Optimal Decision Boundary
 Before presenting the formal analytical solution, it is crucial to understand the role of the threshold function $g(x)$. In optimal stopping problems, $g(x)$ acts as a decision boundary (often called the free boundary) that splits the state space into two regions: the continuation region (where the agent should wait) and the stopping region (where the agent should take action). In our regularized setting, $g_\lambda(x)$ defines the optimal threshold for the continuation probability $y$.
+
+To understand how the boundary $g(x)$ solves the optimal stopping problem, let us return to the example of the investor trying to sell a risky asset (e.g., a stock) to maximize their profit.
+
+In a standard, non-regularized optimal stopping problem, the boundary is simply a price threshold. The rule is deterministic: "If the stock price $X_t$ reaches $\$100$, sell everything immediately." The stopping time $\tau$ is simply the exact moment the price crosses this threshold.
+
+However, in our entropy-regularized framework, the strategy is randomized to encourage exploration. Instead of an absolute price threshold, the investor tracks a new variable: $y$, which represents their probability of continuation (the likelihood of holding onto the stock rather than selling).For any given stock price $x$, $g_\lambda(x)$ tells the investor the maximum allowed probability of holding the asset.
+
 
 ### Theorem 3.1 (The solution to the entropy-regularized real option problem)
 Let $(x,y) \in (0,\infty) \times [0,1]$ be given and fixed.
@@ -160,7 +168,7 @@ $$
 ## Model-Based Numerical Analysis - Algorithm 1
 Before we move on to the RL algorithm, we will present a numerical algorithm for solving the optimal boundary problem in order to better illustrate the underlying mathematical theory. This algorithm makes use of the full knowledge of the system, hence it is called model-based.
 
-### Algorithm 1. Policy Iteration for Entropy-regularized Optimal Stopping (PI-$\lambda$-OS)
+### Algorithm 1. Policy Iteration for Entropy-regularized Optimal Stopping (PI-$\lambda$-OS)  { data-toc-label="Algorithm 1. PI-lambda-OS" }
 1\. Initialize $g_0(x)$ for $x\in[0,\infty)$ according to Assumption 4.4
 
 2\. **for** $k=0,1,\dots,K-1$
@@ -193,11 +201,10 @@ Algorithm 1 follows a classical Policy Iteration framework consisting of two mai
 
 **Policy Improvement**: In Step 4, the algorithm attempts to update the threshold $g_k(x)$ by examining the marginal value of continuation. If the left-sided mixed derivative $\partial_{xy}^- u_k(x,g_k(x))$ is strictly negative, it indicates that the current threshold is placed too high, and the marginal benefit of continuing is decreasing. The algorithm then lowers the boundary by finding a new optimal point $y < g_k(x)$ where the mixed derivative equals zero (indicating a local maximum of the continuation value).
 
-
 ## Model-Free Implementation - Algorithm 4
 Algorithm 1 represents a classical Stochastic Control approach (Dynamic Programming): it requires full, explicit knowledge of the system's governing equations (such as the exact physical laws, transition probabilities, and the HJB formulation) to compute the solution mathematically. It does not "learn"; it calculates. That's why we need to introduce the model-free approach. In this situation, we assume that we have access to an environment simulator.
 
-### Algorithm 3. Simulator $\mathcal{G}$
+### Algorithm 3. Simulator $\mathcal{G}$ { data-toc-label="Algorithm 3. Simulator G" }
 1\. **Input:** Threshold function $g$, initial position $(x,y)$
 
 2\. **Generate:** Sample path $(X^{x},Y^{y,\xi^{g}})$ under policy $\xi^{g}$ (defined in equation)
@@ -210,7 +217,7 @@ $$
 
 Algorithm 3 serves as the Environment. For a given starting state $(x,y)$ and a specific threshold policy $g$, the simulator generates a single random Monte Carlo sample path (governed by the underlying Geometric Brownian Motion dynamics). It then calculates and returns the total discounted cumulative reward for that specific trajectory based on the regularized optimal stopping formula. The learning agent relies entirely on these returned rewards, without needing any prior knowledge of the underlying stochastic differential equations or the explicit HJB formulation.
 
-### Algorithm 4. Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-$\lambda$-OS)
+### Algorithm 4. Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-$\lambda$-OS) { data-toc-label="Algorithm 4. SPI-lambda-OS" }
 1\. Initialize $g_0(x)$ according to Assumption 4.4. Specify a grid size $\delta_x$ for partitioning the $x$-axis and a grid size $\delta_y$ for partitioning the $y$-axis. Also, specify an upper bound $\bar x:=N\delta_x$.
 
 2\. **for** $k=0,1,\dots,K-1$
@@ -246,6 +253,8 @@ Algorithm 4 is the model-free counterpart to Algorithm 1. It approximates the op
 **Strategy Update (Step 9)**: The improvement step functions identically to Algorithm 1. However, instead of finding the root of an analytical derivative, the algorithm numerically investigates the estimated function $\bar u_k(x,y)$ to adjust the threshold $g_{k+1}(x)$ based on the approximated gradients.
 
 Algorithm 4 operates strictly under the Reinforcement Learning (RL). The RL agent does not have access to the underlying stochastic differential equations governing the asset's price. Instead, it must discover the optimal strategy through trial-and-error interaction. By continuously querying the environment simulator (Algorithm 3), collecting random sample paths, and observing the resulting delayed rewards, the agent builds an empirical estimation of the value function based solely on its simulated experiences.
+
+
 
 ## References
 Dianetti, J., Ferrari, G., & Xu, R. (2026). [*Reinforcement Learning in Real Option Models*](https://arxiv.org/abs/2602.15643)
