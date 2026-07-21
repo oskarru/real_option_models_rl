@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -520,7 +520,7 @@
   <a href="#algorithm-1-policy-iteration-for-entropy-regularized-optimal-stopping-pi-lambda-os" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Algorithm 1. Policy Iteration for Entropy-regularized Optimal Stopping (PI-\(\lambda\)-OS)
+        Algorithm 1. PI-lambda-OS
       
     </span>
   </a>
@@ -548,7 +548,7 @@
   <a href="#algorithm-3-simulator-mathcalg" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Algorithm 3. Simulator \(\mathcal{G}\)
+        Algorithm 3. Simulator G
       
     </span>
   </a>
@@ -559,7 +559,7 @@
   <a href="#algorithm-4-sample-based-policy-iteration-for-exploratory-optimal-stopping-spi-lambda-os" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Algorithm 4. Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-\(\lambda\)-OS)
+        Algorithm 4. SPI-lambda-OS
       
     </span>
   </a>
@@ -866,7 +866,7 @@
   <a href="#algorithm-1-policy-iteration-for-entropy-regularized-optimal-stopping-pi-lambda-os" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Algorithm 1. Policy Iteration for Entropy-regularized Optimal Stopping (PI-\(\lambda\)-OS)
+        Algorithm 1. PI-lambda-OS
       
     </span>
   </a>
@@ -894,7 +894,7 @@
   <a href="#algorithm-3-simulator-mathcalg" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Algorithm 3. Simulator \(\mathcal{G}\)
+        Algorithm 3. Simulator G
       
     </span>
   </a>
@@ -905,7 +905,7 @@
   <a href="#algorithm-4-sample-based-policy-iteration-for-exploratory-optimal-stopping-spi-lambda-os" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Algorithm 4. Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-\(\lambda\)-OS)
+        Algorithm 4. SPI-lambda-OS
       
     </span>
   </a>
@@ -984,6 +984,9 @@ V^\lambda(x,y)=\sup_{\xi}\mathbb{E}\left[\int_0^\infty e^{-\rho t}\Bigl((x^\thet
 <p>with boundary condition <span class="arithmatex">\(V(x, 0)=0\)</span>, <span class="arithmatex">\(x \in (0,\infty)\)</span>, where  <span class="arithmatex">\(\mathcal{L}_x \phi (x) := \mu x \phi_x (x) + \frac{1}{2} \sigma^2 {x^2} \phi_{xx} (x)\)</span>.</p>
 <h3 id="the-optimal-decision-boundary">The Optimal Decision Boundary</h3>
 <p>Before presenting the formal analytical solution, it is crucial to understand the role of the threshold function <span class="arithmatex">\(g(x)\)</span>. In optimal stopping problems, <span class="arithmatex">\(g(x)\)</span> acts as a decision boundary (often called the free boundary) that splits the state space into two regions: the continuation region (where the agent should wait) and the stopping region (where the agent should take action). In our regularized setting, <span class="arithmatex">\(g_\lambda(x)\)</span> defines the optimal threshold for the continuation probability <span class="arithmatex">\(y\)</span>.</p>
+<p>To understand how the boundary <span class="arithmatex">\(g(x)\)</span> solves the optimal stopping problem, let us return to the example of the investor trying to sell a risky asset (e.g., a stock) to maximize their profit.</p>
+<p>In a standard, non-regularized optimal stopping problem, the boundary is simply a price threshold. The rule is deterministic: "If the stock price <span class="arithmatex">\(X_t\)</span> reaches <span class="arithmatex">\(\$100\)</span>, sell everything immediately." The stopping time <span class="arithmatex">\(\tau\)</span> is simply the exact moment the price crosses this threshold.</p>
+<p>However, in our entropy-regularized framework, the strategy is randomized to encourage exploration. Instead of an absolute price threshold, the investor tracks a new variable: <span class="arithmatex">\(y\)</span>, which represents their probability of continuation (the likelihood of holding onto the stock rather than selling).For any given stock price <span class="arithmatex">\(x\)</span>, <span class="arithmatex">\(g_\lambda(x)\)</span> tells the investor the maximum allowed probability of holding the asset.</p>
 <h3 id="theorem-31-the-solution-to-the-entropy-regularized-real-option-problem">Theorem 3.1 (The solution to the entropy-regularized real option problem)</h3>
 <p>Let <span class="arithmatex">\((x,y) \in (0,\infty) \times [0,1]\)</span> be given and fixed.
 Introduce the nondecreasing function</p>
@@ -1166,7 +1169,7 @@ g_{k+1}(x) =
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../javascripts/mathjax.js"></script>
       
