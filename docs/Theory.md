@@ -7,7 +7,7 @@ In practice, we can imagine an investor who invests their capital in a risky ass
 
 Our main interest lies in the application of optimal stopping problems to real options, where the timing of an action in an uncertain environment plays a significant role. These approaches require knowledge of the underlying dynamics governing the system or access to critical parameters, about which we have limited knowledge in the real world situations. As a result, our implementations of optimal stopping problems are not sufficiently complex to be used in practical applications.
 
-For this reason, we use reinforcement learning (RL) methods that do not require knowledge of the full specifics of the system's dynamics. They can work around model uncertainty by learning optimal policies directly from simulated trajectories.
+For this reason, we use reinforcement learning (RL) methods that do not require knowledge of the full specifics of the system's dynamics. They can work around model uncertainty by learning optimal policies directly from simulated trajectories. 
 
 
 ## Theory
