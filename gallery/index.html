@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="../notebooks/02_algorithm_4_spi_pi_os/">
+        <link rel="prev" href="../notebooks/04_algorithm_4_mc/">
       
       
       
@@ -454,7 +454,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../notebooks/02_algorithm_4_spi_pi_os/" class="md-nav__link">
+      <a href="../notebooks/02_algorithm_1_mc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithm 1 Policy Iteration for Entropy-regularized Optimal Stopping (with Monte Carlo sim)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/03_algorithm_4_spi_pi_os/" class="md-nav__link">
         
   
   
@@ -462,6 +490,34 @@
     
   
     Algorithm 4 Sample-based Policy Iteration for Exploratory Optimal Stopping (SPI-λ-OS)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/04_algorithm_4_mc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithm 4 Sample-based Policy Iteration for Exploratory Optimal Stopping (with Monte Carlo sim)
   
 
     
@@ -652,19 +708,29 @@
 <figcaption>Figure 1.1. Convergence comparison for the analytical initialization function for Variant 1 (coarse grid) and Variant 2 (fine grid).</figcaption>
 </figure>
 <figure>
-<p><img alt="Figure 1.2" src="../img/algorithm_1_exponential_initialization_results.png" width="800" />
+<p><img alt="Figure 1.2" src="../img/algorithm_1_analytical_avg.png" width="800" />
   </p>
-<figcaption>Figure 1.2. Convergence comparison for the exponential initialization function for Variant 1 (coarse grid) and Variant 2 (fine grid).</figcaption>
+<figcaption>Figure 1.4. Average results for the analytical initialization over 1000 simulations.</figcaption>
 </figure>
 <figure>
-<p><img alt="Figure 1.3" src="../img/algorithm_1_linear_initialization_results.png" width="800" />
+<p><img alt="Figure 1.3" src="../img/algorithm_1_exponential_initialization_results.png" width="800" />
   </p>
-<figcaption>Figure 1.3. Convergence comparison for the linear initialization function for Variant 1 (coarse grid) and Variant 2 (fine grid).</figcaption>
+<figcaption>Figure 1.3. Convergence comparison for the exponential initialization function for Variant 1 (coarse grid) and Variant 2 (fine grid).</figcaption>
 </figure>
 <figure>
-<p><img alt="Figure 1.4" src="../img/algorithm_1_proposed_initialization_results.png" width="800" />
+<p><img alt="Figure 1.4" src="../img/algorithm_1_exponential_avg.png" width="800" />
   </p>
-<figcaption>Figure 1.4. Convergence comparison for the proposed initialization function for Variant 1 (coarse grid) and Variant 2 (fine grid).</figcaption>
+<figcaption>Figure 1.4. Average results for the exponential initialization over 1000 simulations.</figcaption>
+</figure>
+<figure>
+<p><img alt="Figure 1.5" src="../img/algorithm_1_linear_initialization_results.png" width="800" />
+  </p>
+<figcaption>Figure 1.5. Convergence comparison for the linear initialization function for Variant 1 (coarse grid) and Variant 2 (fine grid).</figcaption>
+</figure>
+<figure>
+<p><img alt="Figure 1.6" src="../img/algorithm_1_linear_avg.png" width="800" />
+  </p>
+<figcaption>Figure 1.6. Average results for the linear initialization over 1000 simulations.</figcaption>
 </figure>
 <h2 id="algorithm-4-model-free-policy-iteration">Algorithm 4: Model-Free Policy Iteration</h2>
 <figure>
@@ -673,14 +739,29 @@
 <figcaption>Figure 2.1. Convergence comparison for the analytical initialization function for Variant 1 (enforced monotonicity), and Variant 2 (no enforced monotonicity).</figcaption>
 </figure>
 <figure>
-<p><img alt="Figure 2.2" src="../img/algorithm_4_exponential_initialization_results.png" width="800" />
+<p><img alt="Figure 2.2" src="../img/algorithm_4_analytical_avg.png" width="800" />
   </p>
-<figcaption>Figure 2.2. Convergence comparison for the exponential initialization function for Variant 1 (enforced monotonicity), and Variant 2 (no enforced monotonicity).</figcaption>
+<figcaption>Figure 2.2. Average results for the analytical initialization over 100 simulations.</figcaption>
 </figure>
 <figure>
-<p><img alt="Figure 2.3" src="../img/algorithm_4_linear_initialization_results.png" width="800" />
+<p><img alt="Figure 2.3" src="../img/algorithm_4_exponential_initialization_results.png" width="800" />
   </p>
-<figcaption>Figure 2.3. Convergence comparison for the linear initialization function for Variant 1 (enforced monotonicity), and Variant 2 (no enforced monotonicity).</figcaption>
+<figcaption>Figure 2.3. Convergence comparison for the exponential initialization function for Variant 1 (enforced monotonicity), and Variant 2 (no enforced monotonicity).</figcaption>
+</figure>
+<figure>
+<p><img alt="Figure 2.4" src="../img/algorithm_4_exponential_avg.png" width="800" />
+  </p>
+<figcaption>Figure 2.4. Average results for the exponential initialization over 100 simulations.</figcaption>
+</figure>
+<figure>
+<p><img alt="Figure 2.5" src="../img/algorithm_4_linear_initialization_results.png" width="800" />
+  </p>
+<figcaption>Figure 2.5. Convergence comparison for the linear initialization function for Variant 1 (enforced monotonicity), and Variant 2 (no enforced monotonicity).</figcaption>
+</figure>
+<figure>
+<p><img alt="Figure 2.6" src="../img/algorithm_4_linear_avg.png" width="800" />
+  </p>
+<figcaption>Figure 2.6. Average results for the linear initialization over 100 simulations.</figcaption>
 </figure>
 
 
