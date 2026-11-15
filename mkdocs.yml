@@ -43,8 +43,10 @@ nav:
   - Home Page: README.md
   - Theoretical Introduction: Theory.md
   - Algorithms and Simulations:
-    - Algorithm 1: notebooks/01_algorithm_1_pi_pi_os.ipynb
-    - Algorithm 4: notebooks/02_algorithm_4_spi_pi_os.ipynb
+    - Algorithm 1 Variants: notebooks/01_algorithm_1_pi_pi_os.ipynb
+    - Algorithm 1 Monte Carlo: notebooks/02_algorithm_1_mc.ipynb
+    - Algorithm 4: notebooks/03_algorithm_4_spi_pi_os.ipynb
+    - Algorithm 4 Monte Carlo: notebooks/04_algorithm_4_mc.ipynb
   - Results Gallery: gallery.md
 
 extra_css:
