@@ -2547,85 +2547,6 @@ K = 20</div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3bf0c814">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_L1_error</span><span class="p">(</span><span class="n">gs</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">dx</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Plot the L1 error of the policy iteration.</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">    gs: A list of g values at each iteration.</span>
-<span class="sd">    dx: The step size for the discretization.</span>
-<span class="sd">    """</span>
-    <span class="n">g_true_vals</span> <span class="o">=</span> <span class="n">func_g_true</span><span class="p">()</span>
-    <span class="n">gs_</span> <span class="o">=</span> <span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-
-    <span class="n">l1_errors</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">g_iter</span> <span class="ow">in</span> <span class="n">gs_</span><span class="p">:</span>
-        <span class="n">error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">g_iter</span> <span class="o">-</span> <span class="n">g_true_vals</span><span class="p">))</span> <span class="o">*</span> <span class="n">dx</span>
-        <span class="n">l1_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">l1_errors</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">l1_errors</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span>
-    <span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Convergence to g_true in the L1 norm"</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"iteration"</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"L1 error"</span><span class="p">)</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">l1_errors</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-15">def plot_L1_error(gs: list, dx: float) -&gt; None:
-    """
-    Plot the L1 error of the policy iteration.
-
-    Parameters:
-    gs: A list of g values at each iteration.
-    dx: The step size for the discretization.
-    """
-    g_true_vals = func_g_true()
-    gs_ = gs[1:]
-
-    l1_errors = []
-
-    for g_iter in gs_:
-        error = np.sum(np.abs(g_iter - g_true_vals)) * dx
-        l1_errors.append(error)
-
-    plt.plot(
-        range(1, len(l1_errors) + 1), l1_errors, marker="o", linestyle="-", color="blue"
-    )
-    plt.title("Convergence to g_true in the L1 norm")
-    plt.xlabel("iteration")
-    plt.ylabel("L1 error")
-
-    plt.xticks(np.arange(1, len(l1_errors) + 1, 2))
-
-    plt.grid(True)</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=64a0a5bc">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -2634,7 +2555,7 @@ K = 20</div>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-16">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -2663,7 +2584,7 @@ K = 20</div>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="k">return</span> <span class="n">x_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-16">def find_hitting_point(
+<div class="clipboard-copy-txt" id="cell-15">def find_hitting_point(
     g_array: np.ndarray, x_array: np.ndarray, threshold: float = 0.999
 ) -&gt; float:
     """
@@ -2706,7 +2627,7 @@ K = 20</div>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-17">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-16">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -2797,7 +2718,7 @@ K = 20</div>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-17">def run_algorithm_1(
+<div class="clipboard-copy-txt" id="cell-16">def run_algorithm_1(
     g0_func: callable, func_true: callable, K: int, title_prefix: str, MC: int = 1000
 ) -&gt; None:
     """
@@ -2913,7 +2834,7 @@ K = 20</div>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-18">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-17">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -2925,7 +2846,7 @@ K = 20</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">run_algorithm_1</span><span class="p">(</span><span class="n">func_g_true</span><span class="p">,</span> <span class="n">func_g_true</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">title_prefix</span><span class="o">=</span><span class="s2">"analytical initialization"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-18">run_algorithm_1(func_g_true, func_g_true, K=K, title_prefix="analytical initialization")</div>
+<div class="clipboard-copy-txt" id="cell-17">run_algorithm_1(func_g_true, func_g_true, K=K, title_prefix="analytical initialization")</div>
 </div>
 </div>
 </div>
@@ -2975,7 +2896,7 @@ Mean Model reaches 1 at:    X = 4.3976
 <div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-19">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-18">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -2987,7 +2908,7 @@ Mean Model reaches 1 at:    X = 4.3976
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">run_algorithm_1</span><span class="p">(</span><span class="n">func_linear</span><span class="p">,</span> <span class="n">func_g_true</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">title_prefix</span><span class="o">=</span><span class="s2">"linear initialization"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-19">run_algorithm_1(func_linear, func_g_true, K=K, title_prefix="linear initialization")</div>
+<div class="clipboard-copy-txt" id="cell-18">run_algorithm_1(func_linear, func_g_true, K=K, title_prefix="linear initialization")</div>
 </div>
 </div>
 </div>
@@ -3045,7 +2966,7 @@ Model on average does not reach 1.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-20">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-19">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -3059,7 +2980,7 @@ Model on average does not reach 1.
     <span class="n">func_exponential</span><span class="p">,</span> <span class="n">func_g_true</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">title_prefix</span><span class="o">=</span><span class="s2">"exponential initialization"</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-20">run_algorithm_1(
+<div class="clipboard-copy-txt" id="cell-19">run_algorithm_1(
     func_exponential, func_g_true, K=K, title_prefix="exponential initialization"
 )</div>
 </div>
