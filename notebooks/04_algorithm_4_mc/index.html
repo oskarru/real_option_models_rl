@@ -2829,7 +2829,7 @@ def evaluate_u_monte_carlo(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
@@ -2868,12 +2868,11 @@ def evaluate_u_monte_carlo(
     <span class="n">g_true_vals</span> <span class="o">=</span> <span class="n">func_true</span><span class="p">()</span>
     <span class="n">true_hit_1</span> <span class="o">=</span> <span class="n">find_hitting_point</span><span class="p">(</span><span class="n">g_true_vals</span><span class="p">,</span> <span class="n">x_grid</span><span class="p">)</span>
     
-    <span class="c1"># Listy do zbierania wyników</span>
     <span class="n">gs_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">g_final_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">l1_errors_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">model_hit_1_list</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">iterations_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># &lt;--- NOWA LISTA: na rzeczywistą liczbę iteracji</span>
+    <span class="n">iterations_list</span> <span class="o">=</span> <span class="p">[]</span>
     
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MC</span><span class="p">):</span>
         <span class="n">gs_single</span><span class="p">,</span> <span class="n">g_final_single</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">policy_iteration_MC</span><span class="p">(</span>
@@ -2919,7 +2918,7 @@ def evaluate_u_monte_carlo(
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"--- AVERAGE RESULTS FOR VARIANT </span><span class="si">{</span><span class="n">variant</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">MC</span><span class="si">}</span><span class="s2"> SIMULATIONS) ---"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Mean iterations to converge: </span><span class="si">{</span><span class="n">mean_iterations</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">K</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># &lt;--- WYŚWIETLANIE ŚREDNIEJ</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Mean iterations to converge: </span><span class="si">{</span><span class="n">mean_iterations</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">K</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Final Mean L1 error:        </span><span class="si">{</span><span class="n">final_l1_mean</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">"g_true reaches 1 at:        X = </span><span class="si">{</span><span class="n">true_hit_1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span>
@@ -2962,12 +2961,11 @@ def evaluate_u_monte_carlo(
     g_true_vals = func_true()
     true_hit_1 = find_hitting_point(g_true_vals, x_grid)
     
-    # Listy do zbierania wyników
     gs_list = []
     g_final_list = []
     l1_errors_list = []
     model_hit_1_list = []
-    iterations_list = []  # &lt;--- NOWA LISTA: na rzeczywistą liczbę iteracji
+    iterations_list = []
     
     for n in range(MC):
         gs_single, g_final_single, _ = policy_iteration_MC(
@@ -3013,7 +3011,7 @@ def evaluate_u_monte_carlo(
     plt.grid(True)
     
     print(f"--- AVERAGE RESULTS FOR VARIANT {variant} ({MC} SIMULATIONS) ---")
-    print(f"Mean iterations to converge: {mean_iterations:.2f} / {K}")  # &lt;--- WYŚWIETLANIE ŚREDNIEJ
+    print(f"Mean iterations to converge: {mean_iterations:.2f} / {K}")
     print(f"Final Mean L1 error:        {final_l1_mean:.6f}")
     print(
         f"g_true reaches 1 at:        X = {true_hit_1:.4f}"
